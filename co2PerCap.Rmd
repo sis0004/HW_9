@@ -38,7 +38,7 @@ my_tab %>%
 ### Questions:
 
 1. Are the data in a flat file format? 
-
+Yes?
 2. What is the structure of the data?  Are there any variables you might need to convert prior to manipulating the data?
 
 3. What countries had per capita emissions larger than the 95th percentile in 2014? Make a table of their names and per capita emissions. Hint: Use quantile() to find the 95% cutoff.
