@@ -40,8 +40,15 @@ my_tab %>%
 1. Are the data in a flat file format? 
 Yes?
 2. What is the structure of the data?  Are there any variables you might need to convert prior to manipulating the data?
+The data is in a data frame. All years are numeric vectors. Names of countries are factors. Might want to change the country vector to character data type. Change XYEAR?
 
 3. What countries had per capita emissions larger than the 95th percentile in 2014? Make a table of their names and per capita emissions. Hint: Use quantile() to find the 95% cutoff.
+
+```{r,echo=FALSE}
+Country <- co2_emissions_tonnes_per_person_gapminder$country[co2_emissions_tonnes_per_person_gapminder$X2014 > quantile(co2_emissions_tonnes_per_person_gapminder$X2014, probs = c(0.95))]
+PerCapEmissions.2014 <- co2_emissions_tonnes_per_person_gapminder$X2014[co2_emissions_tonnes_per_person_gapminder$X2014 > quantile(co2_emissions_tonnes_per_person_gapminder$X2014, probs = c(0.95))]
+table <- data.frame(Country, PerCapEmissions.2014)
+```
 
 Your table should look something like this:
 ```{r, echo=FALSE}
