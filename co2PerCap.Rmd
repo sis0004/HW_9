@@ -38,34 +38,38 @@ my_tab %>%
 ### Questions:
 
 1. Are the data in a flat file format? 
-Yes?
+Yes
+```{r}
+co2_emissions_tonnes_per_person <- read.csv(file = "data/co2_emissions_tonnes_per_person_gapminder.csv", header=TRUE, sep = ",") #read in .csv file
+```
 2. What is the structure of the data?  Are there any variables you might need to convert prior to manipulating the data?
-The data is in a data frame. All years are numeric vectors. Names of countries are factors. Might want to change the country vector to character data type. Change XYEAR?
+The data is in a data frame. All years are numeric vectors. Names of countries are factors. Might want to change the country vector to character data type. 
+
+```{r, echo=FALSE}
+co2_emissions_tonnes_per_person$country <- as.character(co2_emissions_tonnes_per_person$country) #convert country vector to character
+```
 
 3. What countries had per capita emissions larger than the 95th percentile in 2014? Make a table of their names and per capita emissions. Hint: Use quantile() to find the 95% cutoff.
 
 ```{r,echo=FALSE}
-Country <- co2_emissions_tonnes_per_person_gapminder$country[co2_emissions_tonnes_per_person_gapminder$X2014 > quantile(co2_emissions_tonnes_per_person_gapminder$X2014, probs = c(0.95))]
-PerCapEmissions.2014 <- co2_emissions_tonnes_per_person_gapminder$X2014[co2_emissions_tonnes_per_person_gapminder$X2014 > quantile(co2_emissions_tonnes_per_person_gapminder$X2014, probs = c(0.95))]
-table <- data.frame(Country, PerCapEmissions.2014)
-```
-
-Your table should look something like this:
-```{r, echo=FALSE}
-cntrys <- rep("country", 5)
-dat <- rep("NA", 5)
-ex_tab <- data.frame("Country"=dat, "PerCapEmissions 2014"=dat)
+dat <- co2_emissions_tonnes_per_person$X2014>quantile(co2_emissions_tonnes_per_person$X2014,0.95) #countries that are in the top 5% of CO2 producers per capita in 2014
+table <- data.frame("Country"=co2_emissions_tonnes_per_person$country[dat], "PerCapEmissions.2014"=co2_emissions_tonnes_per_person$X2014[dat]) #table containing top 5% of CO2 producers per capita and amount of CO2 produced in 2014 (units in tons)
 ex_tab %>%
   kable() %>%
   kable_styling()
 ```
 
 4. Make a table comparing the per capita emissions of the US and the world's highest per capita emitter (from above)  in 1925, 1950, and 2014.  
+```{r, echo=FALSE}
+max <- which.max(co2_emissions_tonnes_per_person$X2014) #gives the factor of the highest emitting country in 2014
+TopEmissions <- as.character(co2_emissions_tonnes_per_person$country[max]) #converts factor to character
+```
 
 Your finished product might look something like this:
 ```{r, echo=FALSE}
 dat <- rep("NA", 3)
-ex_tab <- data.frame("TopCountry"=dat, "United States"=dat)
+ex_tab <- data.frame("Qatar"=dat, "United States"=dat)
+colnames(ex_tab) <- c("United States", "Qatar")
 row.names(ex_tab) <- c("1925", "1950", "2014")
 ex_tab %>%
   kable() %>%
