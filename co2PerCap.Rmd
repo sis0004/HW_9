@@ -67,15 +67,17 @@ TopCountry <- as.character(co2_emissions_tonnes_per_person$country[max]) #conver
 TopCountry
 ```
 
+
+
 Your finished product might look something like this:
 ```{r, echo=FALSE}
-countries <- co2_emissions_tonnes_per_person[co2_emissions_tonnes_per_person$country %in% c("United States", "Qatar"), ] #index United States and Qatar
-ex_tab <- data.frame("Qatar"=, "United States"= )
-colnames(ex_tab) <- c("United States", "Qatar")
-row.names(ex_tab) <- c("1925", "1950", "2014")
+countries <- co2_emissions_tonnes_per_person[co2_emissions_tonnes_per_person$country %in% c("United States", "Qatar"), ]#index United States and Qatar
+fdata <- countries[ , c("X2014", "X1950", "X1925")]
+ex_tab <- data.frame(fdata)
+colnames(ex_tab) <- c("2014", "1950", "1925")
+row.names(ex_tab) <- c("Qatar", "United States")
 ex_tab %>%
   kable() %>%
   kable_styling()
-
 ```
 
