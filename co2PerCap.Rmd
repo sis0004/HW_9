@@ -69,7 +69,6 @@ TopCountry
 
 
 
-Your finished product might look something like this:
 ```{r, echo=FALSE}
 countries <- co2_emissions_tonnes_per_person[co2_emissions_tonnes_per_person$country %in% c("United States", "Qatar"), ]#index United States and Qatar
 fdata <- countries[ , c("X2014", "X1950", "X1925")]
