@@ -1,7 +1,7 @@
 
 ---
 title: "HW_9 CO2"
-author: "Sarah & Luis Andrés"
+author: "Sara & Luis Andrés"
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output: html_document
 ---
@@ -39,8 +39,8 @@ The data is structured as a "`r class(co2perCap)`", with contries as levels (`r 
 
 We used quantile() function to find the 95% cutoff. See the answers in the table below:
 ```{r,echo=FALSE}
-dat <- co2_emissions_tonnes_per_person$X2014>quantile(co2_emissions_tonnes_per_person$X2014,0.95) #countries that are in the top 5% of CO2 producers per capita in 2014
-table <- data.frame("Country"=co2_emissions_tonnes_per_person$country[dat], "PerCapEmissions.2014"=co2_emissions_tonnes_per_person$X2014[dat]) #table containing top 5% of CO2 producers per capita and amount of CO2 produced in 2014 (units in tons)
+dat <- co2perCap$X2014>quantile(co2perCap$X2014,0.95) #countries that are in the top 5% of CO2 producers per capita in 2014
+table <- data.frame("Country"=co2perCap$country[dat], "PerCapEmissions.2014"=co2perCap$X2014[dat]) #table containing top 5% of CO2 producers per capita and amount of CO2 produced in 2014 (units in tons)
 table %>%
   kable() %>%
   kable_styling()
@@ -49,13 +49,13 @@ table %>%
 4. Make a table comparing the per capita emissions of the US and the world's highest per capita emitter (from above)  in 1925, 1950, and 2014.  
 
 ```{r, echo=FALSE}
-max <- which.max(co2_emissions_tonnes_per_person$X2014) #gives the factor of the highest emitting country in 2014
-TopCountry <- as.character(co2_emissions_tonnes_per_person$country[max]) #converts factor to character
+max <- which.max(co2perCap$X2014) #gives the factor of the highest emitting country in 2014
+TopCountry <- as.character(co2perCap$country[max]) #converts factor to character
 ```
 The largest emiter per capita was `r TopCountry`. Their emission have been higher than the US only in 2014. Results are shown in the following table. 
 
 ```{r, echo=FALSE}
-countries <- co2_emissions_tonnes_per_person[co2_emissions_tonnes_per_person$country %in% c("United States", "Qatar"), ]#index United States and Qatar
+countries <- co2perCap[co2perCap$country %in% c("United States", "Qatar"), ]#index United States and Qatar
 fdata <- countries[ , c("X2014", "X1950", "X1925")]
 ex_tab <- data.frame(fdata)
 colnames(ex_tab) <- c("2014", "1950", "1925")
