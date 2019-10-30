@@ -14,6 +14,7 @@ You will need to install and load these packages to get this .Rmd to render figu
 library(markdown)
 library(knitr)
 library(kableExtra)
+library(data.table)
 ```
 
 For this assignment, please use the file _data/co2_emissions_tonnes_per_person_gapminder.csv_
@@ -54,7 +55,7 @@ co2_emissions_tonnes_per_person$country <- as.character(co2_emissions_tonnes_per
 ```{r,echo=FALSE}
 dat <- co2_emissions_tonnes_per_person$X2014>quantile(co2_emissions_tonnes_per_person$X2014,0.95) #countries that are in the top 5% of CO2 producers per capita in 2014
 table <- data.frame("Country"=co2_emissions_tonnes_per_person$country[dat], "PerCapEmissions.2014"=co2_emissions_tonnes_per_person$X2014[dat]) #table containing top 5% of CO2 producers per capita and amount of CO2 produced in 2014 (units in tons)
-ex_tab %>%
+table %>%
   kable() %>%
   kable_styling()
 ```
@@ -62,13 +63,14 @@ ex_tab %>%
 4. Make a table comparing the per capita emissions of the US and the world's highest per capita emitter (from above)  in 1925, 1950, and 2014.  
 ```{r, echo=FALSE}
 max <- which.max(co2_emissions_tonnes_per_person$X2014) #gives the factor of the highest emitting country in 2014
-TopEmissions <- as.character(co2_emissions_tonnes_per_person$country[max]) #converts factor to character
+TopCountry <- as.character(co2_emissions_tonnes_per_person$country[max]) #converts factor to character
+TopCountry
 ```
 
 Your finished product might look something like this:
 ```{r, echo=FALSE}
-dat <- rep("NA", 3)
-ex_tab <- data.frame("Qatar"=dat, "United States"=dat)
+countries <- co2_emissions_tonnes_per_person[co2_emissions_tonnes_per_person$country %in% c("United States", "Qatar"), ] #index United States and Qatar
+ex_tab <- data.frame("Qatar"=, "United States"= )
 colnames(ex_tab) <- c("United States", "Qatar")
 row.names(ex_tab) <- c("1925", "1950", "2014")
 ex_tab %>%
