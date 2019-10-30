@@ -1,6 +1,7 @@
+
 ---
 title: "HW_9 CO2"
-author: "Amy Hessl"
+author: "Sarah & Luis Andrés"
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output: html_document
 ---
@@ -9,49 +10,34 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-You will need to install and load these packages to get this .Rmd to render figures:
+Please install and load these packages to get this .Rmd to render figures:
 ```{r, libraries}
 library(markdown)
 library(knitr)
 library(kableExtra)
-library(data.table)
 ```
 
-For this assignment, please use the file _data/co2_emissions_tonnes_per_person_gapminder.csv_
-You will collaborate with a partner to complete the homework. As with the previous assignment, each student should complete the assignment first, then you should merge your answers on one student's cloned HW_9 repository.  Finally, the host student should make a pull request to submit your answers. 
-Turn in a _.Rmd_ file that is well-formatted and documented.
-
-*Some Hints on Tables in Rmd:*
-For fancy styling of tables for html output from .Rmd, try the kable() function in knitr package:
-```
-kable(my_tab)
-```
-
-Or even fancier, use the kablextra package:
-```
-my_tab %>%
-  kable() %>%
-  kable_styling()
-```
-
+For this assignment, we use the file _data/co2_emissions_tonnes_per_person_gapminder.csv_
 
 ***
 ### Questions:
 
 1. Are the data in a flat file format? 
-Yes
-```{r}
-co2_emissions_tonnes_per_person <- read.csv(file = "data/co2_emissions_tonnes_per_person_gapminder.csv", header=TRUE, sep = ",") #read in .csv file
+
+Yes, the data is in CSV format which is a flat file format. 
+
+```{r, echo =FALSE}
+co2perCap<-read.csv("data/co2_emissions_tonnes_per_person_gapminder.csv")
+
 ```
+
 2. What is the structure of the data?  Are there any variables you might need to convert prior to manipulating the data?
-The data is in a data frame. All years are numeric vectors. Names of countries are factors. Might want to change the country vector to character data type. 
 
-```{r, echo=FALSE}
-co2_emissions_tonnes_per_person$country <- as.character(co2_emissions_tonnes_per_person$country) #convert country vector to character
-```
+The data is structured as a "`r class(co2perCap)`", with contries as levels (`r nrow(co2perCap)`) and years (`r ncol(co2perCap)`) as variables. We did not need to convert any variables. 
 
-3. What countries had per capita emissions larger than the 95th percentile in 2014? Make a table of their names and per capita emissions. Hint: Use quantile() to find the 95% cutoff.
+3. What countries had per capita emissions larger than the 95th percentile in 2014? Make a table of their names and per capita emissions. 
 
+We used quantile() function to find the 95% cutoff. See the answers in the table below:
 ```{r,echo=FALSE}
 dat <- co2_emissions_tonnes_per_person$X2014>quantile(co2_emissions_tonnes_per_person$X2014,0.95) #countries that are in the top 5% of CO2 producers per capita in 2014
 table <- data.frame("Country"=co2_emissions_tonnes_per_person$country[dat], "PerCapEmissions.2014"=co2_emissions_tonnes_per_person$X2014[dat]) #table containing top 5% of CO2 producers per capita and amount of CO2 produced in 2014 (units in tons)
@@ -61,13 +47,12 @@ table %>%
 ```
 
 4. Make a table comparing the per capita emissions of the US and the world's highest per capita emitter (from above)  in 1925, 1950, and 2014.  
+
 ```{r, echo=FALSE}
 max <- which.max(co2_emissions_tonnes_per_person$X2014) #gives the factor of the highest emitting country in 2014
 TopCountry <- as.character(co2_emissions_tonnes_per_person$country[max]) #converts factor to character
-TopCountry
 ```
-
-
+The largest emiter per capita was `r TopCountry`. Their emission have been higher than the US only in 2014. Results are shown in the following table. 
 
 ```{r, echo=FALSE}
 countries <- co2_emissions_tonnes_per_person[co2_emissions_tonnes_per_person$country %in% c("United States", "Qatar"), ]#index United States and Qatar
@@ -79,4 +64,3 @@ ex_tab %>%
   kable() %>%
   kable_styling()
 ```
-
